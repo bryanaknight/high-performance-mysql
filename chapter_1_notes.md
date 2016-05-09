@@ -129,4 +129,9 @@ MVCC - keeps a snapshot of the data as it existed at some point in time; differe
 
 #### InnoDB Engine
 
-Default transactional storage engine for MySQL
+Default transactional storage engine for MySQL. Most important and broadly used engine overall.
+
+* Designed for many short-lived transactions that usually complete rather than being rolled back.
+* Stores its data in a series of one or more dta files that are known as tablespace
+* Tablespace: black box that InnoDB manages all by itself; InnoDB can store each table's data and indexes in separate files
+* Uses MVCC and defaults to REPEATABLE READ isolation level
