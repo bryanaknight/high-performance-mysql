@@ -135,3 +135,75 @@ Default transactional storage engine for MySQL. Most important and broadly used 
 * Stores its data in a series of one or more dta files that are known as tablespace
 * Tablespace: black box that InnoDB manages all by itself; InnoDB can store each table's data and indexes in separate files
 * Uses MVCC and defaults to REPEATABLE READ isolation level
+* InnoDB's tables are built on a clusterd index
+* Very fast primary key lookups
+* Secondary indexes (non primary keys) contain primary key columns
+* Predictive read-ahead for prefetching data from disk
+* Adaptive hash that automaticlaly builds hash indexes in membery for fast lookups
+* Insert buffer to speed inserts
+* supports "hot" online backups
+
+#### The MyISAM Engine
+
+MySQL's default storage engine >version 5.1.
+* Doesn't support transations or row level locks
+* non crash safe
+* ok for read only and small tables
+
+### Other Built-in MySQL Engines
+
+#### Archive engine
+
+* supports only INSERT and SELECt queries
+* best for logging and data acquisition
+* SELECT requires full table scan
+* row level locking
+* non transactional
+* high scpeed inserting and compressed storage
+
+#### Blackhole engine
+
+* no storage
+* discards every INSERT
+* writes queries to logs
+* useful for fancy replication setups and audit logging
+* not recommended
+
+#### CSV engine
+
+* Can treat CSV files as tables
+* No indexes
+* Copy files into and out of the db while the server is running
+* useful as a data interchange format
+
+#### Federated engine
+
+* proxy to other servers
+* opens a client connection to another server and executes queries against a table there
+* disabled by default
+
+#### Memory engine
+
+* HEAP tables
+* fast access to data that never changes or doesn't need to persist after a restart
+* FAST
+* all data stored in memory so queries don't have to wait for disk I/O
+* structure persists but no data survives restart
+* Good for: lookup or mapping tables, caching results of periodically aggregated data, intermediate results when analyzing data
+* supports HASH indexes
+* Don't support text or blob column types, only fixed size rows so store VARCHARs as CHARs
+* MySQL uses memory tables internally while processing queries that require a temporary table to hold intermediate results. If it becomes too big, MySQL will convert to a MyISAM table on disk.
+* NOT the same as a temporary table
+
+#### Merge storage engine
+
+* Variation of MyISAM
+* Deprecated in favor of partitioning
+
+#### NDB Cluster engine
+
+* MySQL server + NDB Cluster storage engine + NDB database = MySQL Cluster
+
+### Selecting the right engine
+
+Prefer not to mix and match different storage engines. Just use InnoDB :troll:
