@@ -207,3 +207,25 @@ MySQL's default storage engine >version 5.1.
 ### Selecting the right engine
 
 Prefer not to mix and match different storage engines. Just use InnoDB :troll:
+
+### Table Conversions
+
+Convert a table from one storage engine to another
+
+Convert a table
+
+#### ALTER TABLE
+
+* Easiest
+* `ALTER TABLE mytable ENGINE = InnoDB;`
+* Table will be read locked
+
+#### Dump and import
+
+* Dump to text file first using mysqldump
+
+#### CREATE and SELECT
+
+* Works well if you don't have much data
+* Should lock first table while creating second and then drop first
+* pt-online-schema-change (WE USE THIS!)
